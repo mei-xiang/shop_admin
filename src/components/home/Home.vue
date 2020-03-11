@@ -22,7 +22,9 @@
           default-active 默认高亮的元素，值为index的值
           router值为true 表示激活导航
           index的值      为路由路径
-         -->
+
+          开启router后，index相当于router-link中的to属性值，用来指定导航的路径
+        -->
         <el-aside width="200px">
           <el-menu
             default-active="/home/users"
@@ -38,6 +40,7 @@
                 <i class="el-icon-location"></i>
                 <span>用户管理</span>
               </template>
+              <!-- 这里的导航路径可以是/home/users   也可以是home/users -->
               <el-menu-item index="/home/users">用户列表</el-menu-item>
             </el-submenu>
             <el-submenu index="2">
@@ -83,17 +86,31 @@ export default {
     },
     // 点击退出按钮，弹出对话框，发送请求删除token并返回登录页
     logout() {
-      this.$confirm("您是否退出当前账号, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      // 1 弹出确认对话框
+      // 2 用户点击确认
+      //  2.1 跳回登录页面
+      //  2.2 清除token
+
+      this.$confirm('您是否确认退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+        // 点击确认按钮
         .then(() => {
-          // 删除token
-          localStorage.removeItem("token");
-          this.$router.push("/login");
+          // 清除token
+          localStorage.removeItem('token')
+          // 跳回登录页面
+          this.$router.push('/login')
         })
-        .catch(() => {});
+        
+      // // 点击取消按钮
+      // .catch(() => {
+      //   this.$message({
+      //     type: 'info',
+      //     message: '已取消删除'
+      //   })
+      // })
     }
   }
 };
@@ -103,6 +120,7 @@ export default {
 .home {
   width: 100%;
   height: 100%;
+  min-width: 1024px;
 }
 .el-header {
   background-color: #373d41;
@@ -130,7 +148,6 @@ export default {
 .el-main {
   background-color: #e9eef3;
   color: #333;
-  text-align: center;
 }
 
 .el-container {

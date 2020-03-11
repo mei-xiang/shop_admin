@@ -19,6 +19,7 @@ const router = new Router({
 })
 
 // 通过全局导航守卫实现登录拦截
+// 判断登录表示token是否存在，存在就让它访问路由对应的组件，否则跳到登录页
 router.beforeEach((to, from, next) => {
   //to and from are Route Object,next() must be called to resolve the hook}
   // 判断用户是否登录

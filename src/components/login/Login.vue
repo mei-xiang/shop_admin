@@ -5,14 +5,23 @@
       rules 表单校验规则
       ref   表单对象
       label-width lable的宽度
+
+      prop  校验字段
     -->
     <el-row type="flex" class="row-bg" justify="center" align="middle">
       <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="4" class="login-content">
-        <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="100px" class="form" label-position="top">
+        <el-form
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForm"
+          label-width="100px"
+          class="form"
+          label-position="top"
+        >
           <el-form-item label="用户名" prop="username">
             <el-input v-model="loginForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password" >
+          <el-form-item label="密码" prop="password">
             <el-input v-model="loginForm.password" type="password"></el-input>
           </el-form-item>
 
@@ -33,8 +42,8 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "",
-        password: ""
+        username: "admin",
+        password: "123456"
       },
       rules: {
         username: [
@@ -58,29 +67,30 @@ export default {
       axios
         .post("http://localhost:8888/api/private/v1/login", this.loginForm)
         .then(res => {
-          console.log(res);
           // 登陆成功将返回的token存储起来，便于登录拦截判断
           const { data, meta } = res.data;
           if (meta.status === 200) {
             // 跳到主页（使用编程式导航）
+            localStorage.setItem("token", data.token);
             this.$router.push("/home");
-            localStorage.setItem('token',data.token)
           } else {
             this.$message({
               message: meta.msg,
               type: "error"
             });
           }
-        });
+          console.log(res);
+        })
+        .catch((error) => console.log(error)); //捕获异常
     },
-    submitForm(formName) {
+    submitForm() {
       this.$refs.loginForm.validate(valid => {
         if (!valid) return false;
         // 验证完成，发送请求
         this.login();
       });
     },
-    resetForm(formName) {
+    resetForm() {
       this.$refs.loginForm.resetFields();
     }
   }
