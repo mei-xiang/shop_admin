@@ -11,7 +11,7 @@
           </el-col>
           <el-col :span="6">
             <div class="grid-content bg-purple user">
-              <span>您好,超级管理员</span>
+              <span>您好,admin</span>
               <a href="javascript:;" class="logout" @click="logout">退出</a>
             </div>
           </el-col>
@@ -41,15 +41,27 @@
                 <span>用户管理</span>
               </template>
               <!-- 这里的导航路径可以是/home/users   也可以是home/users -->
-              <el-menu-item index="/home/users">用户列表</el-menu-item>
+              <el-menu-item index="/home/users">
+                <i class="el-icon-menu"></i>
+                <span>用户列表</span>
+              </el-menu-item>
             </el-submenu>
+
             <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>权限管理</span>
               </template>
-              <el-menu-item index="2-1">权限列表</el-menu-item>
+              <el-menu-item index="/home/roles">
+                <i class="el-icon-menu"></i>
+                <span>角色列表</span>
+              </el-menu-item>
+              <el-menu-item index="/home/rights">
+                <i class="el-icon-menu"></i>
+                <span>权限列表</span>
+              </el-menu-item>
             </el-submenu>
+
             <el-submenu index="3">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -57,6 +69,7 @@
               </template>
               <el-menu-item index="3-1">商品列表</el-menu-item>
             </el-submenu>
+
             <el-submenu index="4">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -91,19 +104,19 @@ export default {
       //  2.1 跳回登录页面
       //  2.2 清除token
 
-      this.$confirm('您是否确认退出?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("您是否确认退出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
         // 点击确认按钮
         .then(() => {
           // 清除token
-          localStorage.removeItem('token')
+          localStorage.removeItem("token");
           // 跳回登录页面
-          this.$router.push('/login')
-        })
-        
+          this.$router.push("/login");
+        });
+
       // // 点击取消按钮
       // .catch(() => {
       //   this.$message({

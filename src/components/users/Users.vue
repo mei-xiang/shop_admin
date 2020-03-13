@@ -33,7 +33,7 @@
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column label="#" width="50">
         <!-- 要想在表格中插入内容，必须使用自定义模板 作用域插槽slot-scope的值是一个对象 可以获取$index column row的值-->
-        <template slot-scope="scope">{{scope.$index+1}}</template>
+        <template slot-scope="scope">{{scope.$index+1+(currentPage-1)*pageSize}}</template>
       </el-table-column>
       <el-table-column prop="username" label="姓名"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -213,7 +213,7 @@ export default {
       });
     },
     handleSizeChange(val) {
-      this.pagesize = val;
+      this.pageSize = val;
       this.getListData();
     },
     handleCurrentChange(page) {
