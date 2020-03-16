@@ -27,55 +27,25 @@
         -->
         <el-aside width="200px">
           <el-menu
-            default-active="/home/users"
             @open="handleOpen"
             @close="handleClose"
+            :unique-opened="true"
+            default-active="/home/users"
             background-color="#333744"
             text-color="#fff"
             active-text-color="rgb(64, 158, 255)"
             :router="true"
           >
-            <el-submenu index="1">
+            <el-submenu :index="item.path" v-for="item in listMenu" :key="item.id">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>用户管理</span>
+                <span>{{item.authName}}</span>
               </template>
-              <!-- 这里的导航路径可以是/home/users   也可以是home/users -->
-              <el-menu-item index="/home/users">
+              <el-menu-item :index="/home/+sub.path" v-for="sub in item.children" :key="sub.id">
                 <i class="el-icon-menu"></i>
-                <span>用户列表</span>
+                <span>{{sub.authName}}</span>
               </el-menu-item>
-            </el-submenu>
 
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>权限管理</span>
-              </template>
-              <el-menu-item index="/home/roles">
-                <i class="el-icon-menu"></i>
-                <span>角色列表</span>
-              </el-menu-item>
-              <el-menu-item index="/home/rights">
-                <i class="el-icon-menu"></i>
-                <span>权限列表</span>
-              </el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>商品管理</span>
-              </template>
-              <el-menu-item index="3-1">商品列表</el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="4">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>订单管理</span>
-              </template>
-              <el-menu-item index="4-1">订单列表</el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -90,7 +60,23 @@
 
 <script>
 export default {
+  data() {
+    return {
+      listMenu: []
+    };
+  },
+  created() {
+    this.getCurrentUserMenu();
+  },
   methods: {
+    async getCurrentUserMenu() {
+      const res = await this.$http.get("menus");
+      console.log(res);
+      const { data, meta } = res.data;
+      if (meta.status === 200) {
+        this.listMenu = data;
+      }
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -174,5 +160,9 @@ export default {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
+}
+
+.el-menu{
+  border: none;
 }
 </style>

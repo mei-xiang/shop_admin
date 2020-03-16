@@ -107,7 +107,7 @@
         defalut-expand-all     默认是否全部展开/不展开节点，是个boolean
         prop 是一个对象，用来设置子节点以及文字的属性
      -->
-    <el-tree :data="treeData" show-checkbox node-key="id" :default-expand-all='true' :default-checked-keys="[5]"
+    <el-tree :data="treeData" show-checkbox node-key="id" :default-expand-all='true' 
       :props="defaultProps" ref="tree">
     </el-tree>
     <div slot="footer" class="dialog-footer">

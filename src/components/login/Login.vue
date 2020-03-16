@@ -72,7 +72,7 @@ export default {
           if (meta.status === 200) {
             // 跳到主页（使用编程式导航）
             localStorage.setItem("token", data.token);
-            this.$router.push("/home");
+            this.$router.push("/home/users");
           } else {
             this.$message({
               message: meta.msg,

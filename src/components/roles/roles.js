@@ -72,6 +72,7 @@ export default {
     async getRolesList() {
       const res = await this.$http.get('/roles')
       const { data, meta } = res.data
+      // console.log(res)
       if (meta.status === 200) {
         this.rolesList = data
       }

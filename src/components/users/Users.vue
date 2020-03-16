@@ -11,13 +11,23 @@
     <el-row>
       <el-col :span="8">
         <div style="margin-top: 15px;">
-          <el-input placeholder="请输入搜索内容" v-model="search" class="input-with-select">
-            <el-button slot="append" icon="el-icon-search" @click="serachUser"></el-button>
+          <el-input
+            placeholder="请输入搜索内容"
+            v-model="search"
+            class="input-with-select"
+          >
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="serachUser"
+            ></el-button>
           </el-input>
         </div>
       </el-col>
       <el-col :span="4" class="addUser">
-        <el-button type="primary" @click="showAddUserDialog">添加用户</el-button>
+        <el-button type="primary" @click="showAddUserDialog"
+          >添加用户</el-button
+        >
       </el-col>
     </el-row>
 
@@ -33,7 +43,9 @@
     <el-table :data="tableData" border style="width: 100%">
       <el-table-column label="#" width="50">
         <!-- 要想在表格中插入内容，必须使用自定义模板 作用域插槽slot-scope的值是一个对象 可以获取$index column row的值-->
-        <template slot-scope="scope">{{scope.$index+1+(currentPage-1)*pageSize}}</template>
+        <template slot-scope="scope">{{
+          scope.$index + 1 + (currentPage - 1) * pageSize
+        }}</template>
       </el-table-column>
       <el-table-column prop="username" label="姓名"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -59,8 +71,18 @@
             size="mini"
             @click="showEditUserDialog(scope.row)"
           ></el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="delUser(scope.row.id)"></el-button>
-          <el-button type="warning" icon="el-icon-s-tools" size="mini"></el-button>
+          <el-button
+            type="danger"
+            icon="el-icon-delete"
+            size="mini"
+            @click="delUser(scope.row.id)"
+          ></el-button>
+          <el-button
+            type="warning"
+            icon="el-icon-s-tools"
+            size="mini"
+            @click="showAssignRoleDialog(scope.row)"
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,13 +100,31 @@
     ></el-pagination>
 
     <!-- 添加用户对话框 -->
-    <el-dialog title="添加用户" :visible.sync="addUserDialog" @close="closeUserDialog">
+    <el-dialog
+      title="添加用户"
+      :visible.sync="addUserDialog"
+      @close="closeUserDialog"
+    >
       <el-form :model="addUserForm" :rules="rules" ref="addUserForm">
-        <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
-          <el-input v-model="addUserForm.username" autocomplete="off"></el-input>
+        <el-form-item
+          label="用户名"
+          :label-width="formLabelWidth"
+          prop="username"
+        >
+          <el-input
+            v-model="addUserForm.username"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-          <el-input v-model="addUserForm.password" autocomplete="off"></el-input>
+        <el-form-item
+          label="密码"
+          :label-width="formLabelWidth"
+          prop="password"
+        >
+          <el-input
+            v-model="addUserForm.password"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
           <el-input v-model="addUserForm.email" autocomplete="off"></el-input>
@@ -100,10 +140,22 @@
     </el-dialog>
 
     <!-- 修改信息对话框 -->
-    <el-dialog title="修改用户信息" :visible.sync="editUserDialog" @close="closeEditDialog">
+    <el-dialog
+      title="修改用户信息"
+      :visible.sync="editUserDialog"
+      @close="closeEditDialog"
+    >
       <el-form :model="editUserForm" ref="editUserForm" :rules="rules">
-        <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
-          <el-input v-model="editUserForm.username" autocomplete="off" disabled></el-input>
+        <el-form-item
+          label="用户名"
+          :label-width="formLabelWidth"
+          prop="username"
+        >
+          <el-input
+            v-model="editUserForm.username"
+            autocomplete="off"
+            disabled
+          ></el-input>
         </el-form-item>
         <el-form-item label="邮箱" :label-width="formLabelWidth" prop="email">
           <el-input v-model="editUserForm.email" autocomplete="off"></el-input>
@@ -117,6 +169,31 @@
         <el-button type="primary" @click="editUser">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 分配角色对话框 -->
+    <el-dialog title="分配角色" :visible.sync="assignRoleDialog">
+      <p>
+        <span>当前的用户：</span><span>{{ curUser.username }}</span>
+      </p>
+      <p>
+        <span>当前的角色：</span><span>{{ curUser.rolename }}</span>
+      </p>
+      <div style="margin-top: 15px;">
+        <span>分配新角色：</span>
+        <el-select v-model="newRole" slot="prepend" placeholder="请选择">
+          <el-option
+            :label="item.roleName"
+            :value="item.id"
+            v-for="item in rolesList"
+            :key="item.id"
+          ></el-option>
+        </el-select>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="assignRoleDialog = false">取 消</el-button>
+        <el-button type="primary" @click="assignRole()">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -124,6 +201,8 @@
 export default {
   data() {
     return {
+      newRole: "",
+      rolesList: [],
       // 搜索内容
       search: "",
       // 列表数据
@@ -135,6 +214,12 @@ export default {
       // 总数
       total: 1,
       addUserDialog: false,
+      assignRoleDialog: false,
+      curUser: {
+        id: -1,
+        username: "",
+        rolename: ""
+      },
       addUserForm: {
         username: "",
         password: "",
@@ -188,8 +273,17 @@ export default {
   },
   created() {
     this.getListData();
+    this.getAllRoles();
   },
   methods: {
+    // 获取所有角色
+    async getAllRoles() {
+      const res = await this.$http.get("/roles");
+      const { data, meta } = res.data;
+      if (meta.status === 200) {
+        this.rolesList = data;
+      }
+    },
     getListData(page = 1) {
       // 已经将axios对象添加到Vue实例中了，不用每次使用都要导axios模块
       // 已经设置了请求的公共路径 axios.defaults.baseURL = '公共路径部分'
@@ -197,7 +291,7 @@ export default {
       this.$http("/users", {
         params: {
           // 当前页
-          pagenum: page,
+          pagenum: this.currentPage,
           // 每页展示多少条数据
           pagesize: this.pageSize,
           query: this.search || ""
@@ -218,7 +312,7 @@ export default {
     },
     handleCurrentChange(page) {
       this.currentPage = page;
-      this.getListData(page);
+      this.getListData();
     },
 
     // 用户列表搜索
@@ -296,7 +390,7 @@ export default {
                 message: res.data.meta.msg
               });
               // 重新渲染
-              this.currentPage = 1;
+              // this.currentPage = 1;
               this.getListData();
             }
           });
@@ -346,6 +440,30 @@ export default {
             }
           });
       });
+    },
+
+    // 显示分配角色对话框
+    showAssignRoleDialog(curUser) {
+      this.assignRoleDialog = true;
+      this.curUser.username = curUser.username;
+      this.curUser.rolename = curUser.role_name;
+      this.curUser.id = curUser.id;
+    },
+
+    // 修改角色
+    async assignRole() {
+      if (!this.newRole) return false;
+      const res = await this.$http.put(`/users/${this.curUser.id}/role`, {
+        rid: this.newRole
+      });
+      const { data, meta } = res.data;
+      if (meta.status === 200) {
+        this.assignRoleDialog = false;
+        this.newRole = "";
+        // const item = this.tableData.find(item => item.id === this.curUser.id);
+        // item.role_name = this.newRole;
+        this.getListData();
+      }
     }
   }
 };
@@ -362,7 +480,7 @@ export default {
   line-height: 67px;
   margin-left: 20px;
 }
-.el-pagination{
+.el-pagination {
   margin-top: 20px;
 }
 </style>
