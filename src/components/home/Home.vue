@@ -45,7 +45,6 @@
                 <i class="el-icon-menu"></i>
                 <span>{{sub.authName}}</span>
               </el-menu-item>
-
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -63,25 +62,25 @@ export default {
   data() {
     return {
       listMenu: []
-    };
+    }
   },
   created() {
-    this.getCurrentUserMenu();
+    this.getCurrentUserMenu()
   },
   methods: {
     async getCurrentUserMenu() {
-      const res = await this.$http.get("menus");
-      console.log(res);
-      const { data, meta } = res.data;
+      const res = await this.$http.get('menus')
+      console.log(res)
+      const { data, meta } = res.data
       if (meta.status === 200) {
-        this.listMenu = data;
+        this.listMenu = data
       }
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     // 点击退出按钮，弹出对话框，发送请求删除token并返回登录页
     logout() {
@@ -90,18 +89,18 @@ export default {
       //  2.1 跳回登录页面
       //  2.2 清除token
 
-      this.$confirm("您是否确认退出?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('您是否确认退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         // 点击确认按钮
         .then(() => {
           // 清除token
-          localStorage.removeItem("token");
+          localStorage.removeItem('token')
           // 跳回登录页面
-          this.$router.push("/login");
-        });
+          this.$router.push('/login')
+        })
 
       // // 点击取消按钮
       // .catch(() => {
@@ -112,7 +111,7 @@ export default {
       // })
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -162,7 +161,7 @@ export default {
   line-height: 320px;
 }
 
-.el-menu{
+.el-menu {
   border: none;
 }
 </style>

@@ -14,6 +14,14 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import axios from 'axios'
 
+import TreeTable from 'vue-table-with-tree-grid'
+
+import QuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
+Vue.use(QuillEditor)
+
 // 配置请求的公共路径
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1'
 
@@ -44,9 +52,22 @@ axios.interceptors.response.use(function (response) {
   return response
 })
 
+// 定义全局过滤器,过滤时间数据
+Vue.filter('formatTime', function (data) {
+  const dt = new Date(data)
+  const y = dt.getFullYear()
+  // es6提供的补全字符串, str.padStart(一共几位,用什么字符补全) str.padEnd()
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = (dt.getDate() + '').padStart(2, '0')
+  const h = (dt.getHours() + '').padStart(2, '0')
+  const i = (dt.getMinutes() + '').padStart(2, '0')
+  const s = (dt.getSeconds() + '').padStart(2, '0')
+  return `${y}-${m}-${d} ${h}:${i}:${s}`
+})
+
 // 安装element
 Vue.use(ElementUI)
-
+Vue.component('tree-table', TreeTable)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

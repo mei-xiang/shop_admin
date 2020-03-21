@@ -29,29 +29,29 @@ export default {
   data() {
     return {
       rightsList: []
-    };
+    }
   },
 
   created() {
-    this.getRightsData();
+    this.getRightsData()
   },
 
   methods: {
     // 获取权限列表数据
     async getRightsData() {
-      const res = await this.$http.get("/rights/list");
-      console.log(res);
-      const { data, meta } = res.data;
+      const res = await this.$http.get('/rights/list')
+      console.log(res)
+      const { data, meta } = res.data
       if (meta.status === 200) {
-        this.rightsList = data;
+        this.rightsList = data
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>
-.el-breadcrumb{
+.el-breadcrumb {
   margin-bottom: 15px;
 }
 </style>
