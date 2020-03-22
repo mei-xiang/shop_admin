@@ -300,7 +300,7 @@ export default {
         item => item.pic == file.response.data.tmp_path
       )
       this.addForm.pics.splice(index, 1)
-      console.log(this.addForm)
+      // console.log(this.addForm)
     },
     // 添加商品
     async addGood(){
