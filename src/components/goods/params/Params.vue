@@ -11,7 +11,7 @@
       <el-alert title="注意：只允许为第三级分类设置相关参数！" type="warning" show-icon></el-alert>
       <span>选择商品分类：</span>
       <!-- 级联选择框 -->
-      <!-- 
+      <!--
         v-model  选择框选中的数据，是个数组
         options  数据
         props    配置每项（每项的内容，每项的标签名）
@@ -211,7 +211,7 @@ export default {
     },
     // 监听级联选择器v-model的值的变化（存储分类id，因为在data数据中使用不了this）
     categoriesId() {
-      return this.selectedData.length == 0
+      return this.selectedData.length === 0
         ? 1
         : this.selectedData[this.selectedData.length - 1]
     }
@@ -252,7 +252,7 @@ export default {
         }
       )
       const { data, meta } = res.data
-      if (meta.status == 200) {
+      if (meta.status === 200) {
         data.forEach(item => {
           item.attr_vals =
             item.attr_vals.length === 0 ? [] : item.attr_vals.split(' ')
@@ -270,7 +270,7 @@ export default {
     showAddManyDialog() {
       this.addManyDialog = true
     },
-    //添加动态参数
+    // 添加动态参数
     addMany() {
       this.$refs.addManyRef.validate(async valid => {
         if (!valid) return false
@@ -304,7 +304,7 @@ export default {
       const res = await this.$http.delete(
         `categories/${row.cat_id}/attributes/${row.attr_id}`
       )
-      if (res.data.meta.status == 200) {
+      if (res.data.meta.status === 200) {
         // 重新渲染
         this.getParamsList()
       }
@@ -439,7 +439,7 @@ export default {
   padding-top: 0;
   padding-bottom: 0;
 }
-.el-table{
+.el-table {
   margin-top: 15px;
 }
 </style>

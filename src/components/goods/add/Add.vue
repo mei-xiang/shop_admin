@@ -26,7 +26,7 @@
       </el-steps>
 
       <!-- 标签页 -->
-      <!-- 
+      <!--
           v-model   绑定值,选中选项卡的name
           tab-click事件  切换标签页触发
           tab-position   选项卡的位置
@@ -62,7 +62,7 @@
             </el-form-item>
             <el-form-item label="商品分类" prop="goods_cat">
               <!-- 级联选择框 -->
-              <!-- 
+              <!--
                   v-model 选中的数据,是个数组
                   options 数据,是个数组
                   poops   配置项{label:   value:  children: }
@@ -101,7 +101,7 @@
           </el-tab-pane>
           <el-tab-pane label="商品图片" name="3">
             <!-- 上传图片 -->
-            <!-- 
+            <!--
                 action  请求地址
                 headers 请求头
                 on-preview 点击上传文件列表的钩子
@@ -122,10 +122,7 @@
             </el-upload>
           </el-tab-pane>
           <el-tab-pane label="商品内容" name="4">
-            <quill-editor
-              ref="myQuillEditor"
-              v-model="addForm.goods_introduce"
-            />
+            <quill-editor ref="myQuillEditor" v-model="addForm.goods_introduce" />
             <el-button type="primary" @click="addGood">添加商品</el-button>
           </el-tab-pane>
         </el-tabs>
@@ -290,8 +287,7 @@ export default {
       this.imgURL = file.url
       this.picDialog = true
     },
-    change(file, fileList) {
-    },
+    change(file, fileList) {},
 
     // 移除图片
     handleRemove(file) {
@@ -303,24 +299,24 @@ export default {
       // console.log(this.addForm)
     },
     // 添加商品
-    async addGood(){
+    async addGood() {
       // 上传文件attr_cat要是一个字符串,直接修改会导致v-model关联的参数数据列表渲染出问题,cloneDeep()深拷贝
       const form = _.cloneDeep(this.addForm)
       form.goods_cat = form.goods_cat.join(',')
-      this.manyParamsList.forEach(item=>{
+      this.manyParamsList.forEach(item => {
         form.attrs.push({
           attr_id: item.attr_id,
           attr_value: item.attr_vals.join('')
         })
       })
-      this.onlyParamsList.forEach(item=>{
+      this.onlyParamsList.forEach(item => {
         form.attrs.push({
           attr_id: item.attr_id,
           attr_value: item.attr_vals.join(' ')
         })
       })
-      const res = await this.$http.post('goods',form)
-      if(res.data.meta.status===201){
+      const res = await this.$http.post('goods', form)
+      if (res.data.meta.status === 201) {
         this.$router.push('/home/goods')
       }
     }
@@ -342,7 +338,7 @@ export default {
 .preview {
   width: 100%;
 }
-.quill-editor{
+.quill-editor {
   margin-bottom: 20px;
 }
 </style>

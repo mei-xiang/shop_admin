@@ -5,12 +5,12 @@ import App from './App'
 import router from './router'
 
 // 导入全局样式
-import "@/assets/index.css"
+import '@/assets/index.css'
 
 // 导入element-js
 import ElementUI from 'element-ui'
 // 导入element-css
-import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css'
 
 import axios from 'axios'
 
@@ -31,20 +31,20 @@ Vue.prototype.$http = axios
 
 // 请求拦截器
 // 每次请求都需要在响应头中设置Authorization 的值为token，就可以在请求拦截器中进行设置。因为只要发送请求就会先走请求拦截器
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function(config) {
   // 登录请求时不需要设置请求头
   if (!config.url.endsWith('/login')) {
     config.headers.Authorization = localStorage.getItem('token')
   }
   // console.log(config)
   return config
-});
+})
 // 响应拦截器
 // 数据响应之前会进行响应拦截。可以对一些同意要处理的在这进行处理，就不要每次返回了数据进行每次处理
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function(response) {
   // 在数据响应前进行拦截，如果返回的数据是无效token进行统一处理
   if (response.data.meta.status === 401) {
-    router.push('/login');
+    router.push('/login')
     // 删除token
     localStorage.removeItem('token')
   }
@@ -53,7 +53,7 @@ axios.interceptors.response.use(function (response) {
 })
 
 // 定义全局过滤器,过滤时间数据
-Vue.filter('formatTime', function (data) {
+Vue.filter('formatTime', function(data) {
   const dt = new Date(data)
   const y = dt.getFullYear()
   // es6提供的补全字符串, str.padStart(一共几位,用什么字符补全) str.padEnd()

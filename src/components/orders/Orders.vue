@@ -122,7 +122,7 @@ export default {
         address2: [{ required: true, message: '请输入地址', trigger: 'blur' }]
       },
       options: cityData,
-      porps:{
+      porps: {
         label: 'n',
         value: 'n',
         children: 's'

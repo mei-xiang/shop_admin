@@ -33,9 +33,7 @@
         <el-table-column prop="goods_price" label="商品价格(元)" width="110px"></el-table-column>
         <el-table-column prop="goods_weight" label="商品重量" width="100px"></el-table-column>
         <el-table-column label="创建时间" width="140px">
-          <template slot-scope="scope">
-            {{scope.row.add_time | formatTime}}
-          </template>
+          <template slot-scope="scope">{{scope.row.add_time | formatTime}}</template>
         </el-table-column>
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
@@ -113,14 +111,14 @@ export default {
       this.pagenum = 1
       this.getGoodsData()
     },
-    async delGoods(goods_id){
+    async delGoods(goods_id) {
       const res = await this.$http.delete(`goods/${goods_id}`)
-      if(res.data.meta.status===200){
+      if (res.data.meta.status === 200) {
         this.getGoodsData()
       }
     },
     // 点击添加商品按钮,跳转添加商品组件
-    jumpAddGoods(){
+    jumpAddGoods() {
       this.$router.push('/home/add')
     }
   }
@@ -131,7 +129,7 @@ export default {
 .el-breadcrumb {
   margin-bottom: 15px;
 }
-.el-table{
+.el-table {
   margin-top: 15px;
   margin-bottom: 15px;
 }
