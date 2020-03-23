@@ -232,7 +232,8 @@ export default {
       this.getParamsList()
       // 如果选择框长度为0，清空数据
       if (this.selectedData.length === 0) {
-        ;(this.manyParamsData = []), (this.onlyParamsData = [])
+        this.manyParamsData = []
+        this.onlyParamsData = []
       }
     },
     // 面板的切换事件
@@ -334,7 +335,7 @@ export default {
     },
     // 清空修改动态参数表单
     celarEditManyForm() {
-      this.$refs.editManyRules.resetFields()
+      this.$refs.editManyRef.resetFields()
     },
     // 控制添加静态属性对话框显示隐藏
     showAddOnlyDialog() {
