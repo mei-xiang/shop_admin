@@ -26,19 +26,19 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       rightsList: []
     }
   },
 
-  created() {
+  created () {
     this.getRightsData()
   },
 
   methods: {
     // 获取权限列表数据
-    async getRightsData() {
+    async getRightsData () {
       const res = await this.$http.get('/rights/list')
       console.log(res)
       const { data, meta } = res.data

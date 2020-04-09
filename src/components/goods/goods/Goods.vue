@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       goodsList: [],
       // 查询条件
@@ -75,11 +75,11 @@ export default {
       total: 0
     }
   },
-  created() {
+  created () {
     this.getGoodsData()
   },
   methods: {
-    async getGoodsData() {
+    async getGoodsData () {
       const res = await this.$http.get('goods', {
         params: {
           query: this.query || '',
@@ -94,31 +94,31 @@ export default {
         this.total = data.total
       }
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val
       this.pagenum = 1
       this.getGoodsData()
     },
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.pagenum = page
       this.getGoodsData()
     },
-    searchGoods() {
+    searchGoods () {
       this.pagenum = 1
       this.getGoodsData()
     },
-    clearInput() {
+    clearInput () {
       this.pagenum = 1
       this.getGoodsData()
     },
-    async delGoods(goods_id) {
-      const res = await this.$http.delete(`goods/${goods_id}`)
+    async delGoods (goodsId) {
+      const res = await this.$http.delete(`goods/${goodsId}`)
       if (res.data.meta.status === 200) {
         this.getGoodsData()
       }
     },
     // 点击添加商品按钮,跳转添加商品组件
-    jumpAddGoods() {
+    jumpAddGoods () {
       this.$router.push('/home/add')
     }
   }

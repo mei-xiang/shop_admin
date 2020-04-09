@@ -1,6 +1,6 @@
 <template>
   <div class="loginForm">
-    <!-- 
+    <!--
       model 表单数据对象
       rules 表单校验规则
       ref   表单对象
@@ -39,7 +39,7 @@
 import axios from 'axios'
 
 export default {
-  data() {
+  data () {
     return {
       loginForm: {
         username: 'admin',
@@ -63,7 +63,7 @@ export default {
     }
   },
   methods: {
-    login() {
+    login () {
       axios
         .post('http://localhost:8888/api/private/v1/login', this.loginForm)
         .then(res => {
@@ -81,16 +81,16 @@ export default {
           }
           console.log(res)
         })
-        .catch(error => console.log(error)) //捕获异常
+        .catch(error => console.log(error)) // 捕获异常
     },
-    submitForm() {
+    submitForm () {
       this.$refs.loginForm.validate(valid => {
         if (!valid) return false
         // 验证完成，发送请求
         this.login()
       })
     },
-    resetForm() {
+    resetForm () {
       this.$refs.loginForm.resetFields()
     }
   }

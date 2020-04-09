@@ -7,20 +7,23 @@ import router from './router'
 // 导入全局样式
 import '@/assets/index.css'
 
+import './plugins/element.js'
+
 // 导入element-js
-import ElementUI from 'element-ui'
+// import ElementUI from 'element-ui'
 // 导入element-css
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 
+// import axios from 'axios'
 import axios from 'axios'
-
 import TreeTable from 'vue-table-with-tree-grid'
 
 import QuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
-Vue.use(QuillEditor)
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 // 配置请求的公共路径
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1'
@@ -29,9 +32,15 @@ axios.defaults.baseURL = 'http://localhost:8888/api/private/v1'
 // 每个组件都是Vue的实例
 Vue.prototype.$http = axios
 
+Vue.use(QuillEditor)
+// 安装element
+// Vue.use(ElementUI)
+Vue.component('tree-table', TreeTable)
+
 // 请求拦截器
 // 每次请求都需要在响应头中设置Authorization 的值为token，就可以在请求拦截器中进行设置。因为只要发送请求就会先走请求拦截器
-axios.interceptors.request.use(function(config) {
+axios.interceptors.request.use(function (config) {
+  NProgress.start()
   // 登录请求时不需要设置请求头
   if (!config.url.endsWith('/login')) {
     config.headers.Authorization = localStorage.getItem('token')
@@ -41,7 +50,8 @@ axios.interceptors.request.use(function(config) {
 })
 // 响应拦截器
 // 数据响应之前会进行响应拦截。可以对一些同意要处理的在这进行处理，就不要每次返回了数据进行每次处理
-axios.interceptors.response.use(function(response) {
+axios.interceptors.response.use(function (response) {
+  NProgress.done()
   // 在数据响应前进行拦截，如果返回的数据是无效token进行统一处理
   if (response.data.meta.status === 401) {
     router.push('/login')
@@ -53,7 +63,7 @@ axios.interceptors.response.use(function(response) {
 })
 
 // 定义全局过滤器,过滤时间数据
-Vue.filter('formatTime', function(data) {
+Vue.filter('formatTime', function (data) {
   const dt = new Date(data)
   const y = dt.getFullYear()
   // es6提供的补全字符串, str.padStart(一共几位,用什么字符补全) str.padEnd()
@@ -65,15 +75,11 @@ Vue.filter('formatTime', function(data) {
   return `${y}-${m}-${d} ${h}:${i}:${s}`
 })
 
-// 安装element
-Vue.use(ElementUI)
-Vue.component('tree-table', TreeTable)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
+
 new Vue({
-  el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
-})
+  render: h => h(App)
+}).$mount('#app')

@@ -1,7 +1,6 @@
-import { valid } from 'semver'
 
 export default {
-  data() {
+  data () {
     return {
       // 角色列表
       rolesList: [],
@@ -27,7 +26,7 @@ export default {
         ]
       },
       // 编辑角色对话框校验规则
-      rules: {
+      editRules: {
         roleName: [
           { required: true, message: '角色名称不能为空', trigger: 'blur' }
         ],
@@ -52,7 +51,7 @@ export default {
     }
   },
 
-  created() {
+  created () {
     // 一进入页面获取角色列表数据
     this.getRolesList()
     // 获取树形权限数据
@@ -61,7 +60,7 @@ export default {
 
   methods: {
     // 获取树形权限数据
-    async getAllRightsData() {
+    async getAllRightsData () {
       const res = await this.$http.get('/rights/tree')
       if (res.data.meta.status === 200) {
         this.treeData = res.data.data
@@ -69,7 +68,7 @@ export default {
     },
 
     // 获取角色数据
-    async getRolesList() {
+    async getRolesList () {
       const res = await this.$http.get('/roles')
       const { data, meta } = res.data
       // console.log(res)
@@ -79,15 +78,15 @@ export default {
     },
 
     // 添加角色
-    showRolesAddDialog() {
+    showRolesAddDialog () {
       this.rolesAddDialog = true
     },
 
     // 添加角色校验提交
-    rolesAdd() {
+    rolesAdd () {
       this.$refs.rolesAddForm.validate(async valid => {
         if (!valid) return false
-        const res = await this.$http.post(`/roles`, this.rolesAddForm)
+        const res = await this.$http.post('/roles', this.rolesAddForm)
         if (res.data.meta.status === 201) {
           // 关闭对话框
           this.rolesAddDialog = false
@@ -100,12 +99,12 @@ export default {
     },
 
     // 关闭添加角色对话框触发的事件
-    closeRolesAdddialog() {
+    closeRolesAdddialog () {
       this.$refs.rolesAddForm.resetFields()
     },
 
     // 点击编辑按钮，显示编辑对话框
-    showRolesEditDialog(rolesData) {
+    showRolesEditDialog (rolesData) {
       // console.log(rolesData)
       // 显示对话框
       this.rolesEditDialog = true
@@ -116,7 +115,7 @@ export default {
     },
 
     // 修改角色
-    rolesEdit() {
+    rolesEdit () {
       this.$refs.rolesForm.validate(async valid => {
         if (!valid) return false
         const { id, roleName, roleDesc } = this.rolesForm
@@ -141,7 +140,7 @@ export default {
     },
 
     // 删除角色
-    roleDel(rolesId) {
+    roleDel (rolesId) {
       this.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -167,7 +166,7 @@ export default {
     },
 
     // 根据角色id和权限id,删除指定权限
-    async delRoles(roleId, rightId) {
+    async delRoles (roleId, rightId) {
       // console.log(roleId, rightId)
       const res = await this.$http.delete(`/roles/${roleId}/rights/${rightId}`)
       if (res.data.meta.status === 200) {
@@ -179,7 +178,7 @@ export default {
     },
 
     // 显示分配权限对话框
-    shownRightDialog(curRoleId, rolesData) {
+    shownRightDialog (curRoleId, rolesData) {
       // 设置当前角色id
       this.curRoleId = curRoleId
       this.rightsAssignDialog = true
@@ -200,7 +199,7 @@ export default {
     },
 
     // 分配权限
-    async rightsAssign() {
+    async rightsAssign () {
       // 获取所有全选中的节点key
       const arr1 = this.$refs.tree.getCheckedKeys()
       // 获取所有半选中的节点key

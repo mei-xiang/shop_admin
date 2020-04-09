@@ -11,7 +11,7 @@
       <el-alert title="消息提示的文案" type="info" show-icon center :closable="false"></el-alert>
 
       <!-- 步骤条 -->
-      <!-- 
+      <!--
         active  设置当前激活的步骤 index
         finish-status 设置步骤结束的状态
       -->
@@ -215,7 +215,6 @@ export default {
         this.categoriesList = data
       }
     },
-    handleClick() {},
     // 级联框内容变化时触发
     handleChange() {
       if (this.addForm.goods_cat.length !== 3) {
@@ -226,7 +225,7 @@ export default {
     beforeLeave(activeName, oldActiveName) {
       // 切换标签时遇到了return false 阻止切换
       // console.log(activeName, oldActiveName)
-      if (oldActiveName == 0 && this.addForm.goods_cat.length !== 3) {
+      if (oldActiveName === 0 && this.addForm.goods_cat.length !== 3) {
         this.$message({
           type: 'error',
           message: '请选择商品分类'
@@ -236,7 +235,7 @@ export default {
     },
     // 切换标签页触发
     async handleClick() {
-      if (this.activeName == 1) {
+      if (this.activeName === 1) {
         // 获取动态参数
         const res = await this.$http.get(
           `categories/${this.categoriesId}/attributes`,
@@ -250,12 +249,12 @@ export default {
         data.forEach(item => {
           item.attr_vals = item.attr_vals.split(' ')
         })
-        if (meta.status == 200) {
+        if (meta.status === 200) {
           this.manyParamsList = data
         }
       }
       // 切换到商品属性,获取数据
-      if (this.activeName == 2) {
+      if (this.activeName === 2) {
         const res = await this.$http.get(
           `categories/${this.categoriesId}/attributes`,
           {
@@ -268,7 +267,7 @@ export default {
         data.forEach(item => {
           item.attr_vals = item.attr_vals.split(' ')
         })
-        if (meta.status == 200) {
+        if (meta.status === 200) {
           this.onlyParamsList = data
         }
       }
@@ -293,7 +292,7 @@ export default {
     handleRemove(file) {
       // 将点击的数据从表单中移除
       const index = this.addForm.pics.findIndex(
-        item => item.pic == file.response.data.tmp_path
+        item => item.pic === file.response.data.tmp_path
       )
       this.addForm.pics.splice(index, 1)
       // console.log(this.addForm)

@@ -287,7 +287,7 @@ export default {
             attr_vals: this.selectedData.join(',')
           }
         )
-        const { data, meta } = res.data
+        const { meta } = res.data
         if (meta.status === 201) {
           // 关闭对话框
           this.addManyDialog = false
@@ -415,8 +415,8 @@ export default {
     celarEditOnlyForm() {
       this.$refs.editOnlyRef.resetFields()
     },
-    async delManyTag(attr_id, index) {
-      const aaa = this.manyParamsData.find(item => item.attr_id === attr_id)
+    async delManyTag(attrId, index) {
+      const aaa = this.manyParamsData.find(item => item.attr_id === attrId)
       aaa.attr_vals.splice(index, 1)
     }
   }

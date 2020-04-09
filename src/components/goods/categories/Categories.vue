@@ -47,15 +47,15 @@
         <el-form-item label="分类名称" :label-width="formLabelWidth" prop="cat_name">
           <el-input v-model="addCategoriesForm.cat_name" autocomplete="off"></el-input>
         </el-form-item>
-        <!-- 
+        <!--
           v-model  选中的值（是个数组，存储多个值）
           options  数据（有分级的）
-          props    配置选项内容（是个对象）  
+          props    配置选项内容（是个对象）
           @change  节点内容变化时触发
           clear    清空选项内容
 
           props: {
-            expandTrigger: click/hover  次级菜单的展开方式 
+            expandTrigger: click/hover  次级菜单的展开方式
             value:   指定选项的值
             label:   指定选项的标签名
             children: 指定选项的子选项名（数据分节点）
@@ -106,7 +106,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       // 添加分类数据
       addCategoriesForm: {
@@ -119,7 +119,7 @@ export default {
         // 当父级分类选择了,根据级联选择框的@change监听事件,根据参数数组的长度判断cat_pid的值
         cat_pid: 0
       },
-      //控制添加分类对话框显示隐藏
+      // 控制添加分类对话框显示隐藏
       addCategoriesDialog: false,
       formLabelWidth: '80px',
       // 表单校验
@@ -188,12 +188,12 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.getCategoriesData()
   },
   methods: {
     // 获取所有一级二级分类
-    async getAllFirstAndTwoCate() {
+    async getAllFirstAndTwoCate () {
       const res = await this.$http.get('categories', {
         params: {
           type: 2
@@ -206,7 +206,7 @@ export default {
       }
     },
     // 获取列表数据
-    async getCategoriesData() {
+    async getCategoriesData () {
       const res = await this.$http.get('categories', {
         params: {
           type: 3,
@@ -221,22 +221,22 @@ export default {
       }
     },
     // 显示对话框
-    showAddCateDialog() {
+    showAddCateDialog () {
       this.addCategoriesDialog = true
       this.getAllFirstAndTwoCate()
     },
 
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val
       this.pagenum = 1
       this.getCategoriesData()
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.pagenum = val
       this.getCategoriesData()
     },
     // 删除分类数据
-    async delCategories(id) {
+    async delCategories (id) {
       try {
         await this.$confirm('此操作将永久删除该分类, 是否继续?', '提示', {
           confirmButtonText: '确定',
@@ -259,7 +259,7 @@ export default {
       }
     },
     // 选中节点发生变化时
-    handleChange(val) {
+    handleChange (val) {
       // 可以通过节点变化时触发的这个change事件,参数存储的节点数组设置分类id
       // 也可以通过v-model进行设置
       // 根据选中节点的长度设置分类层级
@@ -281,7 +281,7 @@ export default {
       }
     },
     // 添加分类
-    addCategories() {
+    addCategories () {
       this.$refs.addCategoriesForm.validate(valid => {
         if (!valid) return false
         console.log(this.addCategoriesForm)
@@ -293,19 +293,19 @@ export default {
       })
     },
     // 清空添加对话框
-    clearAddCateDialog() {},
-    //显示编辑对话框
-    showEditCateDialog(row) {
+    clearAddCateDialog () {},
+    // 显示编辑对话框
+    showEditCateDialog (row) {
       this.editCateDialog = true
       this.editCateForm.cat_name = row.cat_name
       this.editCateForm.id = row.cat_id
     },
     // 清空编辑对话框
-    clearEditCateDialog() {
+    clearEditCateDialog () {
       this.$refs.editCateForm.resetFields()
     },
     // 编辑分类
-    async editCate() {
+    async editCate () {
       const res = await this.$http.put(`categories/${this.editCateForm.id}`, {
         cat_name: this.editCateForm.cat_name
       })

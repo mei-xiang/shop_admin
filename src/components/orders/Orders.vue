@@ -37,7 +37,7 @@
           <template slot-scope="scope">{{scope.row.create_time|formatTime}}</template>
         </el-table-column>
         <el-table-column prop="address" label="操作" width="200">
-          <template slot-scope="scope">
+          <template slot-scope="">
             <el-button icon="el-icon-edit" type="primary" size="mini" @click="editAdress">编辑</el-button>
             <el-button
               icon="el-icon-position"
@@ -102,7 +102,7 @@
 <script>
 import cityData from './cityData'
 export default {
-  data() {
+  data () {
     return {
       ordersList: [],
       ordersForm: {
@@ -194,7 +194,7 @@ export default {
       ]
     }
   },
-  created() {
+  created () {
     this.getOrdersData()
     // 获取省市区数据
 
@@ -202,7 +202,7 @@ export default {
     this.getInfo()
   },
   methods: {
-    async getOrdersData() {
+    async getOrdersData () {
       const res = await this.$http.get('orders', {
         params: this.ordersForm
       })
@@ -212,23 +212,23 @@ export default {
         this.total = data.total
       }
     },
-    handleSizeChange(newSize) {
+    handleSizeChange (newSize) {
       this.ordersForm.pagesize = newSize
       this.getOrdersData()
     },
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.ordersForm.pagenum = page
       this.getOrdersData()
     },
-    queryOrders() {
+    queryOrders () {
       this.ordersForm.pagenum = 1
       this.getOrdersData()
     },
-    getProvince() {},
-    editAdress() {
+    getProvince () {},
+    editAdress () {
       this.editAdressDialog = true
     },
-    addAdress() {
+    addAdress () {
       this.$refs.ruleForm.validate(validate => {
         if (!validate) return false
         // 校验完成
@@ -237,11 +237,11 @@ export default {
       })
     },
     // 级联框内容变化触发
-    handleChange() {},
-    clear() {
+    handleChange () {},
+    clear () {
       this.$refs.ruleForm.resetFields()
     },
-    async showProgressDialog() {
+    async showProgressDialog () {
       this.dialogFormVisible = true
       // const res = await this.$http.get(`/kuaidi/1106975712662`)
       // console.log(res)
@@ -249,7 +249,7 @@ export default {
       //   this.infoList = res.data.data
       // }
     },
-    getInfo() {}
+    getInfo () {}
   }
 }
 </script>

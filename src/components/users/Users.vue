@@ -21,7 +21,7 @@
       </el-col>
     </el-row>
 
-    <!-- 
+    <!--
         el-table：
         data   为表单数据
         border 条纹码表格
@@ -110,7 +110,7 @@
 
     <!-- 修改信息对话框 -->
     <el-dialog title="修改用户信息" :visible.sync="editUserDialog" @close="closeEditDialog">
-      <el-form :model="editUserForm" ref="editUserForm" :rules="rules">
+      <el-form :model="editUserForm" ref="editUserForm" :rules="editRules">
         <el-form-item label="用户名" :label-width="formLabelWidth" prop="username">
           <el-input v-model="editUserForm.username" autocomplete="off" disabled></el-input>
         </el-form-item>
@@ -215,7 +215,7 @@ export default {
         email: '',
         mobile: ''
       },
-      rules: {
+      editRules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           {
@@ -311,8 +311,8 @@ export default {
 
     // 修改状态
     changeUserState(scope) {
-      const { id, mg_state } = scope
-      this.$http.put(`/users/${id}/state/${mg_state}`).then(res => {
+      const { id, mgState } = scope
+      this.$http.put(`/users/${id}/state/${mgState}`).then(res => {
         console.log(res)
         const { meta } = res.data
         if (meta.status === 200) {
@@ -383,14 +383,14 @@ export default {
       this.$refs.editUserForm.validate(valid => {
         if (!valid) return false
         // 校验完成
-        const { id, username, email, mobile } = this.editUserForm
+        const { id, email, mobile } = this.editUserForm
         this.$http
           .put(`/users/${id}`, {
             email,
             mobile
           })
           .then(res => {
-            const { data, meta } = res.data
+            const { meta } = res.data
             if (meta.status === 200) {
               // 关闭对话框
               this.editUserDialog = false
@@ -415,7 +415,7 @@ export default {
       const res = await this.$http.put(`/users/${this.curUser.id}/role`, {
         rid: this.newRole
       })
-      const { data, meta } = res.data
+      const { meta } = res.data
       if (meta.status === 200) {
         this.assignRoleDialog = false
         this.newRole = ''

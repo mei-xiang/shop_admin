@@ -18,7 +18,7 @@
         </el-row>
       </el-header>
       <el-container>
-        <!-- 
+        <!--
           default-active 默认高亮的元素，值为index的值
           router值为true 表示激活导航
           index的值      为路由路径
@@ -59,16 +59,16 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       listMenu: []
     }
   },
-  created() {
+  created () {
     this.getCurrentUserMenu()
   },
   methods: {
-    async getCurrentUserMenu() {
+    async getCurrentUserMenu () {
       const res = await this.$http.get('menus')
       console.log(res)
       const { data, meta } = res.data
@@ -76,14 +76,14 @@ export default {
         this.listMenu = data
       }
     },
-    handleOpen(key, keyPath) {
+    handleOpen (key, keyPath) {
       // console.log(key, keyPath);
     },
-    handleClose(key, keyPath) {
+    handleClose (key, keyPath) {
       // console.log(key, keyPath);
     },
     // 点击退出按钮，弹出对话框，发送请求删除token并返回登录页
-    logout() {
+    logout () {
       // 1 弹出确认对话框
       // 2 用户点击确认
       //  2.1 跳回登录页面

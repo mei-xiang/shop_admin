@@ -19,7 +19,7 @@
 import echarts from 'echarts'
 import _ from 'lodash'
 export default {
-  data() {
+  data () {
     return {
       options: {
         title: {
@@ -54,10 +54,10 @@ export default {
       newOptions: {}
     }
   },
-  created() {
+  created () {
     // this.getReportsData()
   },
-  async mounted() {
+  async mounted () {
     // 3. 初始化
     var myChart = echarts.init(document.getElementById('main'))
     // 4. 准备配置项和数据

@@ -81,7 +81,7 @@
 
   <!-- 编辑角色对话框 -->
   <el-dialog title="修改角色" :visible.sync="rolesEditDialog">
-    <el-form :model="rolesForm" ref="rolesForm" :rules="rules">
+    <el-form :model="rolesForm" ref="rolesForm" :rules="editRules">
       <el-form-item label="角色名称" :label-width="formLabelWidth" prop="roleName">
         <el-input v-model="rolesForm.roleName" autocomplete="off"></el-input>
       </el-form-item>
