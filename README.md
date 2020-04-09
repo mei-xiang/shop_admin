@@ -1,7 +1,6 @@
 # shop
 
-## 接口地址
-```https://github.com/mei-xiang/shop_admin_api
+接口地址：https://github.com/mei-xiang/shop_admin_api
 
 ## Project setup
 ```
